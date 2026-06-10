@@ -9,21 +9,35 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0d0f14",
-        foreground: "#e8e0d0",
-        copper: {
-          DEFAULT: "#c8843a",
-          light: "#dba35c",
-          dark: "#9c6427",
+        bg: "var(--color-bg)",
+        surface: {
+          DEFAULT: "var(--color-surface)",
+          2: "var(--color-surface-2)",
         },
-        surface: "#161a22",
-        border: "#2a2f3a",
+        border: "var(--color-border)",
+        accent: {
+          DEFAULT: "var(--color-accent)",
+          dim: "var(--color-accent-dim)",
+        },
+        // foreground / text
+        fg: {
+          DEFAULT: "var(--color-text)",
+          muted: "var(--color-text-muted)",
+          dim: "var(--color-text-dim)",
+        },
+        danger: "var(--color-danger)",
+        success: "var(--color-success)",
+        info: "var(--color-info)",
       },
       fontFamily: {
-        serif: ["EB Garamond", "Georgia", "serif"],
+        serif: ["var(--font-main)", "Georgia", "serif"],
+        sans: ["var(--font-main)", "Georgia", "serif"],
       },
       maxWidth: {
         app: "430px",
+      },
+      minHeight: {
+        screen: "100dvh",
       },
     },
   },

@@ -29,12 +29,12 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
       <body className="font-serif">
-        <div className="relative mx-auto min-h-screen max-w-app bg-background">
+        <div className="relative mx-auto min-h-screen max-w-app bg-bg">
           <main className="px-4 pb-24 pt-6">{children}</main>
           <BottomNav />
         </div>

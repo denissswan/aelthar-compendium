@@ -3,21 +3,40 @@
 @tailwind utilities;
 
 :root {
-  --background: #0d0f14;
-  --foreground: #e8e0d0;
-  --copper: #c8843a;
+  /* Surfaces */
+  --color-bg: #0d0f14;
+  --color-surface: #131620;
+  --color-surface-2: #1a1d28;
+  --color-border: #1e2130;
+
+  /* Accent */
+  --color-accent: #c8843a;
+  --color-accent-dim: #c8843a22;
+
+  /* Text */
+  --color-text: #e8e0d0;
+  --color-text-muted: #7a8090;
+  --color-text-dim: #4a5060;
+
+  /* Status */
+  --color-danger: #bf4f4f;
+  --color-success: #4fbf8f;
+  --color-info: #4f8fbf;
+
+  /* Typography */
+  --font-main: "EB Garamond", Georgia, serif;
 }
 
 html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: "EB Garamond", Georgia, serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-main);
   -webkit-font-smoothing: antialiased;
 }
 
 body {
-  /* leave room for the fixed bottom navigation */
+  /* room for the fixed bottom navigation + iOS safe area */
   padding-bottom: env(safe-area-inset-bottom);
 }
 
