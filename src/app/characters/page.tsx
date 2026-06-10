@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Search, Users } from "lucide-react";
+import Link from "next/link";
+import { Search, Users, Plus } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
 import EmptyState from "@/components/EmptyState";
@@ -70,8 +71,35 @@ export default function CharactersPage() {
         ) : (
           <div className="flex flex-col gap-2.5">
             {filtered.map((character) => (
-              <CharacterCard key={character.id} character={character} />
+              <CharacterCard
+                key={character.id}
+                character={character}
+                isActive={
+                  campaign != null && character.campaign_id === campaign.id
+                }
+              />
             ))}
+          </div>
+        )}
+
+        {/* Decorative art strip + create button */}
+        {!loading && (
+          <div className="mt-8">
+            <div
+              className="mb-3 h-24 rounded-lg border border-border"
+              style={{
+                background:
+                  "radial-gradient(120% 140% at 80% 0%, #c8843a33 0%, transparent 55%), linear-gradient(135deg, #1a1020 0%, #131620 60%, #0d0f14 100%)",
+              }}
+              aria-hidden
+            />
+            <Link
+              href="/characters/new"
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-accent py-3 text-sm font-semibold uppercase tracking-[0.06em] text-accent active:bg-accent-dim"
+            >
+              <Plus size={18} />
+              Створити персонажа
+            </Link>
           </div>
         )}
       </PageBody>
