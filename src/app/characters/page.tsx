@@ -7,6 +7,7 @@ import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
 import EmptyState from "@/components/ui/EmptyState";
 import SearchBar from "@/components/ui/SearchBar";
+import SignOutButton from "@/components/SignOutButton";
 import CharacterCard from "@/components/CharacterCard";
 import ActiveCampaignBanner from "@/components/ActiveCampaignBanner";
 import { useCharacters } from "@/hooks/useCharacters";
@@ -28,7 +29,7 @@ export default function CharactersPage() {
 
   return (
     <>
-      <AppHeader title="Персонажі" />
+      <AppHeader title="Персонажі" rightAction={<SignOutButton />} />
       <PageBody className="px-4 pt-4">
         {/* Search */}
         <SearchBar

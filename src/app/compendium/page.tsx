@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Sparkles, Users, ChevronRight, type LucideIcon } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
+import SignOutButton from "@/components/SignOutButton";
 
 interface Category {
   href: string;
@@ -30,7 +31,7 @@ const categories: Category[] = [
 export default function CompendiumPage() {
   return (
     <>
-      <AppHeader title="Довідник" />
+      <AppHeader title="Довідник" rightAction={<SignOutButton />} />
       <PageBody className="flex flex-col gap-3 px-4 pt-4">
         {categories.map(({ href, label, description, icon: Icon }) => (
           <Link

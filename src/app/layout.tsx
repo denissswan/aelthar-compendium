@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import BottomNav from "@/components/BottomNav";
+import { AuthProvider } from "@/components/AuthProvider";
+import AppShell from "@/components/AppShell";
 
 export const metadata: Metadata = {
   title: "Aelthar Compendium",
@@ -35,8 +36,9 @@ export default function RootLayout({
       </head>
       <body className="font-serif">
         <div className="relative mx-auto min-h-screen max-w-app bg-bg">
-          <main className="pb-24">{children}</main>
-          <BottomNav />
+          <AuthProvider>
+            <AppShell>{children}</AppShell>
+          </AuthProvider>
         </div>
       </body>
     </html>

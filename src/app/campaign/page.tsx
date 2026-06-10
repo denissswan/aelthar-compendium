@@ -13,6 +13,7 @@ import Badge from "@/components/ui/Badge";
 import SectionLabel from "@/components/ui/SectionLabel";
 import SessionCard from "@/components/SessionCard";
 import NpcCard from "@/components/NpcCard";
+import SignOutButton from "@/components/SignOutButton";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useCampaign } from "@/hooks/useCampaign";
 import { useSessions } from "@/hooks/useSessions";
@@ -40,7 +41,7 @@ export default function CampaignPage() {
   if (loading) {
     return (
       <>
-        <AppHeader title="Кампанія" subtitle="DM Панель" />
+        <AppHeader title="Кампанія" subtitle="DM Панель" rightAction={<SignOutButton />} />
         <PageBody className="px-4 pt-4">
           <LoadingSpinner />
         </PageBody>
@@ -51,7 +52,7 @@ export default function CampaignPage() {
   if (!campaign) {
     return (
       <>
-        <AppHeader title="Кампанія" subtitle="DM Панель" />
+        <AppHeader title="Кампанія" subtitle="DM Панель" rightAction={<SignOutButton />} />
         <PageBody className="px-4 pt-4">
           <EmptyState
             icon={Castle}
@@ -74,7 +75,7 @@ export default function CampaignPage() {
 
   return (
     <>
-      <AppHeader title="Кампанія" subtitle="DM Панель" />
+      <AppHeader title="Кампанія" subtitle="DM Панель" rightAction={<SignOutButton />} />
       <PageBody className="px-4 pt-4">
         {/* Hero */}
         <div
