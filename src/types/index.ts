@@ -21,18 +21,30 @@ export interface AbilityScores {
   charisma: number;
 }
 
+// Mirrors the Supabase `characters` table (columns confirmed against the live DB).
 export interface Character {
   id: string;
   user_id: string;
-  campaign_id: string;
+  campaign_id: string | null;
   name: string;
   race: string;
   class: string;
+  subclass: string | null;
   level: number;
   hp_current: number;
   hp_max: number;
-  armor_class: number;
-  stats: AbilityScores;
+  ac: number;
+  background: string | null;
+  alignment: string | null;
+  speed: number | null;
+  initiative: number | null;
+  proficiency_bonus: number | null;
+  created_at: string;
+}
+
+// A character row with its campaign name embedded (PostgREST join).
+export interface CharacterWithCampaign extends Character {
+  campaigns: { name: string } | null;
 }
 
 export type ItemCategory =
