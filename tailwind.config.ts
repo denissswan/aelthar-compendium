@@ -20,7 +20,7 @@ const config: Config = {
         border: "#2a2f3a",
       },
       fontFamily: {
-        serif: ["var(--font-crimson)", "Crimson Text", "Georgia", "serif"],
+        serif: ["EB Garamond", "Georgia", "serif"],
       },
       maxWidth: {
         app: "430px",

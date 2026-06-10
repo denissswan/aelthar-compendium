@@ -17,7 +17,7 @@ Active campaign: "Тіні Валдаару" (session 4).
 - Primary accent: `#c8843a` (copper/bronze)
 - Background: `#0d0f14`
 - Text: `#e8e0d0`
-- Font: Crimson Text (serif)
+- Font: EB Garamond (serif, full Cyrillic support)
 - Mobile-first, max-width 430px centered
 - Bottom navigation bar
 
