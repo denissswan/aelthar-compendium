@@ -6,6 +6,16 @@ import AppShell from "@/components/AppShell";
 export const metadata: Metadata = {
   title: "Aelthar Compendium",
   description: "D&D 5e campaign manager for the world of Aelthar",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Aelthar",
+  },
+  icons: {
+    icon: "/icons/icon-192.png",
+    apple: "/icons/icon-192.png",
+  },
 };
 
 export const viewport: Viewport = {
