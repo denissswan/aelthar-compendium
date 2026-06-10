@@ -2,10 +2,11 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Search, Users, Plus } from "lucide-react";
+import { Users, Plus } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/ui/EmptyState";
+import SearchBar from "@/components/ui/SearchBar";
 import CharacterCard from "@/components/CharacterCard";
 import ActiveCampaignBanner from "@/components/ActiveCampaignBanner";
 import { useCharacters } from "@/hooks/useCharacters";
@@ -30,15 +31,12 @@ export default function CharactersPage() {
       <AppHeader title="Персонажі" />
       <PageBody className="px-4 pt-4">
         {/* Search */}
-        <div className="mb-3 flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2">
-          <Search size={18} className="text-fg-muted" />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Пошук персонажів…"
-            className="w-full bg-transparent text-[15px] text-fg placeholder:text-fg-dim focus:outline-none"
-          />
-        </div>
+        <SearchBar
+          value={search}
+          onChange={setSearch}
+          placeholder="Пошук персонажів…"
+          className="mb-3"
+        />
 
         {/* Active campaign banner */}
         {campaign && (

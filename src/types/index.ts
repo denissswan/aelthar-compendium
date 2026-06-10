@@ -73,10 +73,12 @@ export interface CharacterSpell {
 export interface Session {
   id: string;
   campaign_id: string;
+  session_number: number;
   title: string;
   date: string; // ISO date
   summary: string | null;
-  dm_notes: string | null;
+  dm_notes: string | null; // DM-only
+  created_at: string;
 }
 
 export interface Npc {
@@ -84,8 +86,12 @@ export interface Npc {
   campaign_id: string;
   name: string;
   role: string | null;
+  faction: string | null;
+  location: string | null;
   public_info: string | null;
   secret_notes: string | null; // DM-only
+  is_visible_to_players: boolean;
+  created_at: string;
 }
 
 // Compendium reference data.

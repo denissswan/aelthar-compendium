@@ -3,7 +3,7 @@
 import { UserPlus } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/ui/EmptyState";
 
 // Scaffold only — the character creation flow is built next.
 export default function NewCharacterPage() {

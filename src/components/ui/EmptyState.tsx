@@ -4,7 +4,7 @@ interface EmptyStateProps {
   icon: LucideIcon;
   title: string;
   description?: string;
-  /** Optional action element (e.g. an "add" button) rendered below the text. */
+  /** Optional action element (e.g. a button) rendered below the text. */
   action?: React.ReactNode;
 }
 

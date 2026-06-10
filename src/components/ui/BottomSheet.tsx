@@ -9,7 +9,7 @@ interface BottomSheetProps {
   children: React.ReactNode;
 }
 
-/** Reusable bottom drawer: dimmed backdrop + spring slide-up, capped at 85dvh. */
+/** Reusable bottom drawer: blurred dim backdrop + spring slide-up, capped at 85dvh. */
 export default function BottomSheet({ open, onClose, children }: BottomSheetProps) {
   // Lock background scroll while open.
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function BottomSheet({ open, onClose, children }: BottomSheetProp
       {open && (
         <>
           <motion.div
-            className="fixed inset-0 z-[60] bg-black/60"
+            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

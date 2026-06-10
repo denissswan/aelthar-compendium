@@ -3,7 +3,7 @@
 import { X } from "lucide-react";
 import type { Spell } from "@/types";
 import { levelLabel } from "@/lib/spellFormat";
-import BottomSheet from "@/components/BottomSheet";
+import BottomSheet from "@/components/ui/BottomSheet";
 
 interface SpellDetailSheetProps {
   spell: Spell | null;

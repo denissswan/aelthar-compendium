@@ -2,13 +2,14 @@
 
 import { useMemo, useState } from "react";
 import { useParams } from "next/navigation";
-import { Search, Sparkles, Users, BookOpen } from "lucide-react";
+import { Sparkles, Users, BookOpen } from "lucide-react";
 import type { Spell } from "@/types";
 import { useSpells } from "@/hooks/useSpells";
 import { useRaces } from "@/hooks/useRaces";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/ui/EmptyState";
+import SearchBar from "@/components/ui/SearchBar";
 import SpellCard from "@/components/SpellCard";
 import SpellDetailSheet from "@/components/SpellDetailSheet";
 import RaceCard from "@/components/RaceCard";
@@ -51,15 +52,11 @@ function SpellsView() {
       <AppHeader title={CATEGORY_TITLES.spells} backButton />
       <PageBody className="flex flex-col gap-4 px-4 pt-4">
         {/* Search */}
-        <div className="flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2">
-          <Search size={18} className="text-fg-muted" />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Пошук заклять…"
-            className="w-full bg-transparent text-[15px] text-fg placeholder:text-fg-dim focus:outline-none"
-          />
-        </div>
+        <SearchBar
+          value={search}
+          onChange={setSearch}
+          placeholder="Пошук заклять…"
+        />
 
         {/* Level filter */}
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
