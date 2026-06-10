@@ -75,3 +75,33 @@ export interface Npc {
   public_info: string | null;
   secret_notes: string | null; // DM-only
 }
+
+// Compendium reference data.
+
+// Mirrors the existing Supabase `spells` table.
+export interface Spell {
+  id: string;
+  name: string;
+  level: number; // 0 = cantrip
+  school: string;
+  casting_time: string;
+  range: string;
+  components: string;
+  duration: string;
+  description: string;
+  higher_levels: string | null;
+  source: string;
+  classes: string[] | string | null;
+}
+
+// Church-relation badge value for an Aelthar race.
+export type ChurchRelation = "Вороже" | "Нейтрально" | "Більшість";
+
+// Proposed schema for a `races` table (does not exist in Supabase yet).
+export interface Race {
+  id: string;
+  name: string;
+  region: string | null;
+  church_relation: ChurchRelation | null;
+  description: string | null;
+}
