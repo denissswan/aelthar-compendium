@@ -35,7 +35,7 @@ export default function RootLayout({
       </head>
       <body className="font-serif">
         <div className="relative mx-auto min-h-screen max-w-app bg-bg">
-          <main className="px-4 pb-24 pt-6">{children}</main>
+          <main className="pb-24">{children}</main>
           <BottomNav />
         </div>
       </body>
