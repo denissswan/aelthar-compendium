@@ -53,7 +53,11 @@ export function useInventory(characterId: string) {
 
   const deleteItem = useCallback(async (id: string) => {
     setData((d) => d.filter((it) => it.id !== id));
-    await supabase.from("inventory_items").delete().eq("id", id);
+    const { error } = await supabase
+      .from("inventory_items")
+      .delete()
+      .eq("id", id);
+    return { error: error?.message ?? null };
   }, []);
 
   const toggleEquipped = useCallback(

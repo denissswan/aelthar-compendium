@@ -14,7 +14,7 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import SessionCard from "@/components/SessionCard";
 import NpcCard from "@/components/NpcCard";
 import SignOutButton from "@/components/SignOutButton";
-import PartySection from "@/components/PartySection";
+import PartyOverview from "@/components/dm/PartyOverview";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useIsDM } from "@/hooks/useIsDM";
 import { useCampaign } from "@/hooks/useCampaign";
@@ -125,7 +125,7 @@ export default function CampaignPage() {
           {tab === "overview" && (
             <div className="flex flex-col gap-5">
               <OverviewTab description={campaign.description} />
-              {isDM && <PartySection campaignId={campaign.id} />}
+              {isDM && <PartyOverview campaignId={campaign.id} />}
             </div>
           )}
           {tab === "sessions" && (

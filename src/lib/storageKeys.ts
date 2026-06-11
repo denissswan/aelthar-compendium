@@ -13,5 +13,6 @@ export const STORAGE_KEYS = {
   spells: (characterId: string) => `aelthar.spells.${characterId}`,
   deathSaves: (characterId: string) => `aelthar.deathSaves.${characterId}`,
   spellSlots: (characterId: string) => `aelthar.spellSlots.${characterId}`,
+  conditions: (characterId: string) => `aelthar.conditions.${characterId}`,
   sessionDraft: (sessionId: string) => `aelthar.session.draft.${sessionId}`,
 } as const;

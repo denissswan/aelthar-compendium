@@ -6,10 +6,10 @@ import { useParty } from "@/hooks/useParty";
 import SectionLabel from "@/components/ui/SectionLabel";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import EmptyState from "@/components/ui/EmptyState";
-import PartyCard from "@/components/PartyCard";
-import DMCharacterControl from "@/components/DMCharacterControl";
+import PartyCard from "@/components/dm/PartyCard";
+import DMCharacterModal from "@/components/dm/DMCharacterModal";
 
-export default function PartySection({ campaignId }: { campaignId: string }) {
+export default function PartyOverview({ campaignId }: { campaignId: string }) {
   const { data, loading, update } = useParty(campaignId);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -41,7 +41,7 @@ export default function PartySection({ campaignId }: { campaignId: string }) {
         </div>
       )}
 
-      <DMCharacterControl
+      <DMCharacterModal
         character={selected}
         onClose={() => setSelectedId(null)}
         onUpdate={update}

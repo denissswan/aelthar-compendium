@@ -31,11 +31,15 @@ export function useParty(campaignId: string | undefined) {
     };
   }, [campaignId]);
 
-  /** DM edit of a party member (optimistic + Supabase write). */
+  /** DM edit of a party member (optimistic + immediate Supabase write). */
   const update = useCallback(
     async (id: string, patch: Partial<Character>) => {
       setData((d) => d.map((c) => (c.id === id ? { ...c, ...patch } : c)));
-      await supabase.from("characters").update(patch).eq("id", id);
+      const { error } = await supabase
+        .from("characters")
+        .update(patch)
+        .eq("id", id);
+      return { error: error?.message ?? null };
     },
     [],
   );
