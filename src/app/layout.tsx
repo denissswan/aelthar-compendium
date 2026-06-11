@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Aelthar Compendium",
   description: "D&D 5e campaign manager for the world of Aelthar",
   manifest: "/manifest.json",
+  themeColor: "#c8843a",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0d0f14",
+  themeColor: "#c8843a",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -42,6 +43,12 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap"
           rel="stylesheet"
+        />
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
         />
       </head>
       <body className="font-serif">

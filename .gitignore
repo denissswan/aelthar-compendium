@@ -14,11 +14,10 @@
 /out/
 
 # next-pwa generated service worker
-/public/sw.js
-/public/sw.js.map
-/public/workbox-*.js
-/public/workbox-*.js.map
-/public/fallback-*.js
+**/public/sw.js
+**/public/workbox-*.js
+**/public/worker-*.js
+**/public/sw.js.map
 
 # production
 /build

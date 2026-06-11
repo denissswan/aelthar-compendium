@@ -1,14 +1,12 @@
 {
   "name": "Aelthar Compendium",
   "short_name": "Aelthar",
-  "description": "Менеджер D&D 5e кампаній для світу Аелтар",
+  "description": "D&D Campaign Manager for the world of Aelthar",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0d0f14",
-  "theme_color": "#0d0f14",
-  "lang": "uk",
+  "theme_color": "#c8843a",
   "icons": [
     {
       "src": "/icons/icon-192.png",
