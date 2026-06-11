@@ -75,7 +75,22 @@ export default function CampaignPage() {
 
   return (
     <>
-      <AppHeader title="Кампанія" subtitle="DM Панель" rightAction={<SignOutButton />} />
+      <AppHeader
+        title="Кампанія"
+        subtitle="DM Панель"
+        rightAction={
+          <div className="flex items-center gap-2">
+            <Link
+              href="/campaign/new"
+              aria-label="Нова кампанія"
+              className="rounded-md p-1 text-accent active:opacity-70"
+            >
+              <Plus size={20} />
+            </Link>
+            <SignOutButton />
+          </div>
+        }
+      />
       <PageBody className="px-4 pt-4">
         {/* Hero */}
         <div
