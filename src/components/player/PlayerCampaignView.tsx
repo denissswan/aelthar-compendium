@@ -1,0 +1,138 @@
+"use client";
+
+import { useState } from "react";
+import { Castle, ScrollText, Users } from "lucide-react";
+import AppHeader from "@/components/AppHeader";
+import PageBody from "@/components/PageBody";
+import EmptyState from "@/components/ui/EmptyState";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import TabBar from "@/components/ui/TabBar";
+import Card from "@/components/ui/Card";
+import Badge from "@/components/ui/Badge";
+import SectionLabel from "@/components/ui/SectionLabel";
+import SignOutButton from "@/components/SignOutButton";
+import SessionCard from "@/components/SessionCard";
+import NpcCard from "@/components/NpcCard";
+import { usePlayerCampaign } from "@/hooks/usePlayerCampaign";
+
+const TABS = [
+  { key: "overview", label: "Огляд" },
+  { key: "sessions", label: "Сесії" },
+  { key: "npcs", label: "NPC" },
+];
+
+export default function PlayerCampaignView() {
+  const { campaign, sessions, npcs, loading } = usePlayerCampaign();
+  const [tab, setTab] = useState("overview");
+
+  if (loading) {
+    return (
+      <>
+        <AppHeader title="Кампанія" rightAction={<SignOutButton />} />
+        <PageBody className="px-4 pt-4">
+          <LoadingSpinner />
+        </PageBody>
+      </>
+    );
+  }
+
+  if (!campaign) {
+    return (
+      <>
+        <AppHeader title="Кампанія" rightAction={<SignOutButton />} />
+        <PageBody className="px-4 pt-4">
+          <EmptyState
+            icon={Castle}
+            title="Ви ще не в кампанії"
+            description="Щойно ваш персонаж приєднається до кампанії, її дані зʼявляться тут."
+          />
+        </PageBody>
+      </>
+    );
+  }
+
+  const lastSession = sessions.length
+    ? sessions[sessions.length - 1].session_number
+    : 0;
+
+  return (
+    <>
+      <AppHeader title="Кампанія" rightAction={<SignOutButton />} />
+      <PageBody className="px-4 pt-4">
+        {/* Hero */}
+        <div
+          className="rounded-xl border border-[#c8843a33] p-5"
+          style={{ background: "linear-gradient(135deg, #1a0a0a, #0d0f14)" }}
+        >
+          <p className="text-[10px] uppercase tracking-[0.08em] text-accent">
+            Кампанія
+          </p>
+          <h2 className="mt-1 text-[22px] font-bold leading-tight text-fg">
+            {campaign.name}
+          </h2>
+          <p className="mt-1 text-[13px] text-fg-muted">
+            {lastSession > 0 ? `Сесія ${lastSession}` : "Ще немає сесій"}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            <Badge label="Активна" color="#4fbf8f" />
+            {campaign.setting && <Badge label={campaign.setting} />}
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <TabBar tabs={TABS} active={tab} onChange={setTab} />
+        </div>
+
+        <div className="mt-4">
+          {tab === "overview" && (
+            <div>
+              <SectionLabel className="mb-2">Опис кампанії</SectionLabel>
+              <Card>
+                <p className="text-sm leading-relaxed text-fg-muted">
+                  {campaign.description || "Опис ще не додано."}
+                </p>
+              </Card>
+            </div>
+          )}
+
+          {tab === "sessions" && (
+            <div className="flex flex-col gap-2.5">
+              {sessions.length === 0 ? (
+                <EmptyState
+                  icon={ScrollText}
+                  title="Сесій ще немає"
+                  description="Звіти про проведені сесії зʼявляться тут."
+                />
+              ) : (
+                sessions.map((s) => (
+                  <SessionCard key={s.id} session={s} isDM={false} />
+                ))
+              )}
+            </div>
+          )}
+
+          {tab === "npcs" && (
+            <div className="flex flex-col gap-2.5">
+              {npcs.length === 0 ? (
+                <EmptyState
+                  icon={Users}
+                  title="NPC ще немає"
+                  description="Персонажі, яких ви зустріли, зʼявляться тут."
+                />
+              ) : (
+                npcs.map((npc) => (
+                  <NpcCard
+                    key={npc.id}
+                    npc={npc}
+                    isDM={false}
+                    onToggleVisible={() => {}}
+                  />
+                ))
+              )}
+            </div>
+          )}
+        </div>
+      </PageBody>
+    </>
+  );
+}

@@ -15,6 +15,7 @@ import SignOutButton from "@/components/SignOutButton";
 import PartyOverview from "@/components/dm/PartyOverview";
 import SessionsTab from "@/components/dm/SessionsTab";
 import NpcsTab from "@/components/dm/NpcsTab";
+import PlayerCampaignView from "@/components/player/PlayerCampaignView";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useIsDM } from "@/hooks/useIsDM";
 import { useCampaign } from "@/hooks/useCampaign";
@@ -29,7 +30,7 @@ const TABS = [
 ];
 
 export default function CampaignPage() {
-  const { user } = useCurrentUser();
+  const { user, loading: userLoading } = useCurrentUser();
   const { campaign, playerCount, loading } = useCampaign(user?.id);
   const sessions = useSessions(campaign?.id);
   const npcs = useNPCs(campaign?.id);
@@ -38,6 +39,23 @@ export default function CampaignPage() {
   const lastSession = sessions.data.length
     ? sessions.data[sessions.data.length - 1].session_number
     : 0;
+
+  // Wait for auth to resolve before deciding DM vs player view.
+  if (userLoading) {
+    return (
+      <>
+        <AppHeader title="Кампанія" rightAction={<SignOutButton />} />
+        <PageBody className="px-4 pt-4">
+          <LoadingSpinner />
+        </PageBody>
+      </>
+    );
+  }
+
+  // Players get the read-only campaign view (via *_public views).
+  if (!isDM) {
+    return <PlayerCampaignView />;
+  }
 
   if (loading) {
     return (
