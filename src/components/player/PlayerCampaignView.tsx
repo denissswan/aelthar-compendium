@@ -18,7 +18,7 @@ import PartyCard from "@/components/dm/PartyCard";
 import PlayerCharacterModal from "@/components/player/PlayerCharacterModal";
 import { usePlayerCampaign } from "@/hooks/usePlayerCampaign";
 import { useQuests } from "@/hooks/useQuests";
-import { useParty } from "@/hooks/useParty";
+import { usePlayerParty } from "@/hooks/usePlayerParty";
 
 const TABS = [
   { key: "overview", label: "Огляд" },
@@ -31,7 +31,7 @@ const TABS = [
 export default function PlayerCampaignView() {
   const { campaign, sessions, npcs, loading } = usePlayerCampaign();
   const quests = useQuests(campaign?.id);
-  const party = useParty(campaign?.id);
+  const party = usePlayerParty(campaign?.id);
   const [tab, setTab] = useState("overview");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
