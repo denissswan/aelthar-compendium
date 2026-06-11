@@ -30,6 +30,9 @@ const DB_COLUMNS = [
   "notes",
   "background",
   "alignment",
+  "gold",
+  "silver",
+  "copper",
 ] as const;
 
 function pickDbColumns(c: Character) {

@@ -54,6 +54,9 @@ export interface Character {
   notes: string | null;
   background: string | null;
   alignment: string | null;
+  gold: number;
+  silver: number;
+  copper: number;
   created_at: string;
 }
 
@@ -62,20 +65,27 @@ export interface CharacterWithCampaign extends Character {
   campaigns: { name: string } | null;
 }
 
-export type ItemCategory =
-  | "weapon"
-  | "armor"
-  | "consumable"
-  | "treasure"
-  | "tool"
-  | "misc";
+// Item categories (stored verbatim in the `category` column).
+export const ITEM_CATEGORIES = [
+  "Зброя",
+  "Броня",
+  "Інструмент",
+  "Зілля",
+  "Магічний",
+  "Інше",
+] as const;
+
+export type ItemCategory = (typeof ITEM_CATEGORIES)[number];
 
 export interface InventoryItem {
   id: string;
   character_id: string;
   name: string;
-  category: ItemCategory;
+  description: string | null;
   quantity: number;
+  category: string;
+  equipped: boolean;
+  created_at: string;
 }
 
 export interface CharacterSpell {

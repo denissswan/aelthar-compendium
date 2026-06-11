@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { UserRound, Backpack, Sparkles } from "lucide-react";
+import { UserRound, Sparkles } from "lucide-react";
 import type { AbilityKey } from "@/lib/dnd";
 import type { Character } from "@/types";
 import { useCharacterSheet } from "@/hooks/useCharacterSheet";
@@ -18,6 +18,7 @@ import SavingThrows from "@/components/sheet/SavingThrows";
 import SkillsList from "@/components/sheet/SkillsList";
 import CombatStats from "@/components/sheet/CombatStats";
 import DeathSaves from "@/components/sheet/DeathSaves";
+import InventoryTab from "@/components/sheet/InventoryTab";
 
 const TABS = [
   { key: "stats", label: "Стати" },
@@ -125,11 +126,7 @@ export default function CharacterDetailPage() {
         )}
 
         {tab === "inventory" && (
-          <EmptyState
-            icon={Backpack}
-            title="Інвентар у розробці"
-            description="Предмети персонажа зʼявляться тут."
-          />
+          <InventoryTab character={character} onChange={update} />
         )}
 
         {tab === "spells" && (
