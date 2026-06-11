@@ -68,6 +68,19 @@ export default function PartyCard({
           {character.ac}
         </span>
       </div>
+
+      {character.conditions?.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {character.conditions.map((c) => (
+            <span
+              key={c}
+              className="rounded-full bg-accent-dim px-2 py-0.5 text-[10px] text-accent"
+            >
+              {c}
+            </span>
+          ))}
+        </div>
+      )}
     </button>
   );
 }

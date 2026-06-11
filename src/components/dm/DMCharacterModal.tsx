@@ -12,8 +12,6 @@ import {
   proficiencyBonus,
 } from "@/lib/dnd";
 import { useInventory, type NewItem } from "@/hooks/useInventory";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { STORAGE_KEYS } from "@/lib/storageKeys";
 import BottomSheet from "@/components/ui/BottomSheet";
 import TabBar from "@/components/ui/TabBar";
 import Badge from "@/components/ui/Badge";
@@ -110,9 +108,7 @@ function Content({
       </div>
 
       <div className="mt-4">
-        {tab === "control" && (
-          <ControlTab character={character} patch={patch} notify={notify} />
-        )}
+        {tab === "control" && <ControlTab character={character} patch={patch} />}
         {tab === "inventory" && (
           <InventoryTab character={character} notify={notify} />
         )}
@@ -142,28 +138,23 @@ function Content({
 function ControlTab({
   character,
   patch,
-  notify,
 }: {
   character: Character;
   patch: (p: Partial<Character>) => void;
-  notify: (res: { error: string | null }) => void;
 }) {
   const [exact, setExact] = useState("");
   const [confirmLevel, setConfirmLevel] = useState(false);
   const [loot, setLoot] = useState({ gold: 0, silver: 0, copper: 0 });
-  const [conditions, setConditions] = useLocalStorage<string[]>(
-    STORAGE_KEYS.conditions(character.id),
-    [],
-  );
+  const conditions = character.conditions ?? [];
 
   const applyHp = (delta: number) =>
     patch({ hp_current: clamp(character.hp_current + delta, 0, character.hp_max) });
 
   const toggleCondition = (c: string) => {
-    setConditions((prev) =>
-      prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c],
-    );
-    notify({ error: null });
+    const next = conditions.includes(c)
+      ? conditions.filter((x) => x !== c)
+      : [...conditions, c];
+    patch({ conditions: next });
   };
 
   const addLoot = () => {

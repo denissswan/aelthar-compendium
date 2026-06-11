@@ -61,6 +61,7 @@ export interface Character {
   bonds: string | null;
   flaws: string | null;
   languages: string | null;
+  conditions: string[];
   gold: number;
   silver: number;
   copper: number;
