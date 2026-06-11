@@ -1,6 +1,6 @@
 "use client";
 
-import { Lock } from "lucide-react";
+import { Lock, Pencil } from "lucide-react";
 import type { Session } from "@/types";
 import Card from "@/components/ui/Card";
 
@@ -19,9 +19,11 @@ function formatDate(date: string): string {
 export default function SessionCard({
   session,
   isDM,
+  onEdit,
 }: {
   session: Session;
   isDM: boolean;
+  onEdit?: () => void;
 }) {
   return (
     <Card>
@@ -32,11 +34,23 @@ export default function SessionCard({
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <p className="text-[15px] font-bold text-fg">{session.title}</p>
-            {session.date && (
-              <span className="shrink-0 text-[11px] text-fg-dim">
-                {formatDate(session.date)}
-              </span>
-            )}
+            <div className="flex shrink-0 items-center gap-2">
+              {session.date && (
+                <span className="text-[11px] text-fg-dim">
+                  {formatDate(session.date)}
+                </span>
+              )}
+              {onEdit && (
+                <button
+                  type="button"
+                  onClick={onEdit}
+                  aria-label="Редагувати сесію"
+                  className="rounded-md p-1 text-fg-dim active:text-accent"
+                >
+                  <Pencil size={14} />
+                </button>
+              )}
+            </div>
           </div>
           {session.summary && (
             <p className="mt-1 line-clamp-2 text-[13px] text-fg-muted">

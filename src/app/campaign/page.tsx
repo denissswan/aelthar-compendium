@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Castle, Users, ScrollText, Plus } from "lucide-react";
+import { Castle, Users, Plus } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
 import EmptyState from "@/components/ui/EmptyState";
@@ -11,10 +11,10 @@ import TabBar from "@/components/ui/TabBar";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import SectionLabel from "@/components/ui/SectionLabel";
-import SessionCard from "@/components/SessionCard";
-import NpcCard from "@/components/NpcCard";
 import SignOutButton from "@/components/SignOutButton";
 import PartyOverview from "@/components/dm/PartyOverview";
+import SessionsTab from "@/components/dm/SessionsTab";
+import NpcsTab from "@/components/dm/NpcsTab";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useIsDM } from "@/hooks/useIsDM";
 import { useCampaign } from "@/hooks/useCampaign";
@@ -128,21 +128,8 @@ export default function CampaignPage() {
               {isDM && <PartyOverview campaignId={campaign.id} />}
             </div>
           )}
-          {tab === "sessions" && (
-            <SessionsTab
-              loading={sessions.loading}
-              sessions={sessions.data}
-              isDM={isDM}
-            />
-          )}
-          {tab === "npcs" && (
-            <NpcsTab
-              loading={npcs.loading}
-              npcs={npcs.data}
-              isDM={isDM}
-              onToggleVisible={npcs.toggleVisible}
-            />
-          )}
+          {tab === "sessions" && <SessionsTab sessions={sessions} isDM={isDM} />}
+          {tab === "npcs" && <NpcsTab npcs={npcs} isDM={isDM} />}
           {tab === "quests" && <QuestsTab />}
         </div>
       </PageBody>
@@ -168,81 +155,6 @@ function OverviewTab({ description }: { description: string | null }) {
         <SectionLabel className="mb-2">Сюжетні арки</SectionLabel>
         <p className="text-sm text-fg-dim">Сюжетних арок ще немає.</p>
       </div>
-    </div>
-  );
-}
-
-/* --------------------------------- Сесії ---------------------------------- */
-
-function SessionsTab({
-  loading,
-  sessions,
-  isDM,
-}: {
-  loading: boolean;
-  sessions: import("@/types").Session[];
-  isDM: boolean;
-}) {
-  if (loading) return <LoadingSpinner />;
-
-  return (
-    <div className="flex flex-col gap-2.5">
-      {sessions.length === 0 ? (
-        <EmptyState
-          icon={ScrollText}
-          title="Сесій ще немає"
-          description="Записи про проведені сесії зʼявляться тут."
-        />
-      ) : (
-        sessions.map((s) => <SessionCard key={s.id} session={s} isDM={isDM} />)
-      )}
-
-      <button
-        type="button"
-        className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-accent py-2.5 text-sm font-semibold text-accent active:bg-accent-dim"
-      >
-        <Plus size={16} />
-        Додати нотатки сесії
-      </button>
-    </div>
-  );
-}
-
-/* ---------------------------------- NPC ----------------------------------- */
-
-function NpcsTab({
-  loading,
-  npcs,
-  isDM,
-  onToggleVisible,
-}: {
-  loading: boolean;
-  npcs: import("@/types").Npc[];
-  isDM: boolean;
-  onToggleVisible: (id: string) => void;
-}) {
-  if (loading) return <LoadingSpinner />;
-
-  if (npcs.length === 0) {
-    return (
-      <EmptyState
-        icon={Users}
-        title="NPC ще немає"
-        description="Персонажі, яких зустрічають гравці, зʼявляться тут."
-      />
-    );
-  }
-
-  return (
-    <div className="flex flex-col gap-2.5">
-      {npcs.map((npc) => (
-        <NpcCard
-          key={npc.id}
-          npc={npc}
-          isDM={isDM}
-          onToggleVisible={onToggleVisible}
-        />
-      ))}
     </div>
   );
 }

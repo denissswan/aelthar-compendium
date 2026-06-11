@@ -1,49 +1,77 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import type { Session } from "@/types";
 
-interface SessionsState {
-  data: Session[];
-  loading: boolean;
-  error: string | null;
+export type SessionInput = Pick<
+  Session,
+  "session_number" | "title" | "date" | "summary" | "dm_notes"
+>;
+
+function sortSessions(list: Session[]): Session[] {
+  return [...list].sort((a, b) => a.session_number - b.session_number);
 }
 
-/** Fetch a campaign's sessions, ordered by session number. */
-export function useSessions(campaignId: string | undefined): SessionsState {
-  const [state, setState] = useState<SessionsState>({
-    data: [],
-    loading: true,
-    error: null,
-  });
+/** Fetch and manage a campaign's sessions. */
+export function useSessions(campaignId: string | undefined) {
+  const [data, setData] = useState<Session[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!campaignId) {
-      setState({ data: [], loading: false, error: null });
+      setData([]);
+      setLoading(false);
       return;
     }
-
     let active = true;
     (async () => {
-      const { data, error } = await supabase
+      const { data: rows, error: err } = await supabase
         .from("sessions")
         .select("*")
         .eq("campaign_id", campaignId)
         .order("session_number", { ascending: true });
-
       if (!active) return;
-      setState({
-        data: (data as Session[]) ?? [],
-        loading: false,
-        error: error?.message ?? null,
-      });
+      setData((rows as Session[]) ?? []);
+      setError(err?.message ?? null);
+      setLoading(false);
     })();
-
     return () => {
       active = false;
     };
   }, [campaignId]);
 
-  return state;
+  const create = useCallback(
+    async (input: SessionInput) => {
+      if (!campaignId) return { error: "Кампанію не вибрано" };
+      const { data: row, error: err } = await supabase
+        .from("sessions")
+        .insert({ campaign_id: campaignId, ...input })
+        .select("*")
+        .single();
+      if (!err && row) setData((d) => sortSessions([...d, row as Session]));
+      return { error: err?.message ?? null };
+    },
+    [campaignId],
+  );
+
+  const update = useCallback(async (id: string, patch: Partial<Session>) => {
+    setData((d) =>
+      sortSessions(d.map((s) => (s.id === id ? { ...s, ...patch } : s))),
+    );
+    const { error: err } = await supabase
+      .from("sessions")
+      .update(patch)
+      .eq("id", id);
+    return { error: err?.message ?? null };
+  }, []);
+
+  const remove = useCallback(async (id: string) => {
+    setData((d) => d.filter((s) => s.id !== id));
+    const { error: err } = await supabase.from("sessions").delete().eq("id", id);
+    return { error: err?.message ?? null };
+  }, []);
+
+  return { data, loading, error, create, update, remove };
 }
