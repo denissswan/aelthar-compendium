@@ -45,6 +45,7 @@ function ItemRow({
   onDelete: () => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   return (
     <div className="rounded-lg border border-border bg-surface">
       <div className="flex items-center gap-2 px-3 py-2.5">
@@ -89,14 +90,34 @@ function ItemRow({
           ) : (
             <p className="text-[13px] italic text-fg-dim">Без опису</p>
           )}
-          <button
-            type="button"
-            onClick={onDelete}
-            className="mt-2 inline-flex items-center gap-1.5 text-xs text-danger"
-          >
-            <Trash2 size={14} />
-            Видалити
-          </button>
+          {confirming ? (
+            <div className="mt-2 flex items-center gap-3 text-xs">
+              <span className="text-danger">Видалити предмет?</span>
+              <button
+                type="button"
+                onClick={onDelete}
+                className="font-semibold text-danger active:opacity-70"
+              >
+                Так
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirming(false)}
+                className="text-fg-muted active:text-fg"
+              >
+                Скасувати
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setConfirming(true)}
+              className="mt-2 inline-flex items-center gap-1.5 text-xs text-danger"
+            >
+              <Trash2 size={14} />
+              Видалити
+            </button>
+          )}
         </div>
       )}
     </div>
