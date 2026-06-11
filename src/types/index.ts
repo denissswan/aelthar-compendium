@@ -21,6 +21,12 @@ export interface AbilityScores {
   charisma: number;
 }
 
+// Proficiency flags stored in the `proficiencies` jsonb column.
+export interface Proficiencies {
+  saves: string[]; // ability keys: str/dex/con/int/wis/cha
+  skills: string[]; // skill slugs, e.g. "stealth"
+}
+
 // Mirrors the Supabase `characters` table (columns confirmed against the live DB).
 export interface Character {
   id: string;
@@ -33,12 +39,21 @@ export interface Character {
   level: number;
   hp_current: number;
   hp_max: number;
+  hp_temp: number | null;
   ac: number;
-  background: string | null;
-  alignment: string | null;
   speed: number | null;
   initiative: number | null;
   proficiency_bonus: number | null;
+  str: number;
+  dex: number;
+  con: number;
+  int: number;
+  wis: number;
+  cha: number;
+  proficiencies: Proficiencies | null;
+  notes: string | null;
+  background: string | null;
+  alignment: string | null;
   created_at: string;
 }
 
