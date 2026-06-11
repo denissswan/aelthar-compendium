@@ -54,10 +54,26 @@ export interface Character {
   notes: string | null;
   background: string | null;
   alignment: string | null;
+  appearance: string | null;
+  backstory: string | null;
+  personality_traits: string | null;
+  ideals: string | null;
+  bonds: string | null;
+  flaws: string | null;
+  languages: string | null;
   gold: number;
   silver: number;
   copper: number;
   created_at: string;
+}
+
+// A character_spells row with the full spell embedded (PostgREST join).
+export interface CharacterSpellRow {
+  id: string;
+  character_id: string;
+  spell_id: string;
+  prepared: boolean;
+  spells: Spell;
 }
 
 // A character row with its campaign name embedded (PostgREST join).

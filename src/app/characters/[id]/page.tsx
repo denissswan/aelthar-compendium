@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { UserRound, Sparkles } from "lucide-react";
+import { UserRound } from "lucide-react";
 import type { AbilityKey } from "@/lib/dnd";
-import type { Character } from "@/types";
 import { useCharacterSheet } from "@/hooks/useCharacterSheet";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
@@ -19,6 +18,8 @@ import SkillsList from "@/components/sheet/SkillsList";
 import CombatStats from "@/components/sheet/CombatStats";
 import DeathSaves from "@/components/sheet/DeathSaves";
 import InventoryTab from "@/components/sheet/InventoryTab";
+import SpellsTab from "@/components/sheet/SpellsTab";
+import NotesTab from "@/components/sheet/NotesTab";
 
 const TABS = [
   { key: "stats", label: "Стати" },
@@ -129,22 +130,10 @@ export default function CharacterDetailPage() {
           <InventoryTab character={character} onChange={update} />
         )}
 
-        {tab === "spells" && (
-          <EmptyState
-            icon={Sparkles}
-            title="Заклинання у розробці"
-            description="Підготовлені закляття персонажа зʼявляться тут."
-          />
-        )}
+        {tab === "spells" && <SpellsTab characterId={character.id} />}
 
         {tab === "notes" && (
-          <textarea
-            value={character.notes ?? ""}
-            onChange={(e) => update({ notes: e.target.value } as Partial<Character>)}
-            rows={12}
-            placeholder="Нотатки про персонажа…"
-            className="w-full resize-none rounded-lg border border-border bg-surface px-3 py-2.5 text-[15px] leading-relaxed text-fg placeholder:text-fg-dim focus:border-accent focus:outline-none"
-          />
+          <NotesTab character={character} onChange={update} />
         )}
       </PageBody>
     </>
