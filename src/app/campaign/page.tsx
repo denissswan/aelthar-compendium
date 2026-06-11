@@ -14,7 +14,9 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import SessionCard from "@/components/SessionCard";
 import NpcCard from "@/components/NpcCard";
 import SignOutButton from "@/components/SignOutButton";
+import PartySection from "@/components/PartySection";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useIsDM } from "@/hooks/useIsDM";
 import { useCampaign } from "@/hooks/useCampaign";
 import { useSessions } from "@/hooks/useSessions";
 import { useNPCs } from "@/hooks/useNPCs";
@@ -32,8 +34,7 @@ export default function CampaignPage() {
   const sessions = useSessions(campaign?.id);
   const npcs = useNPCs(campaign?.id);
   const [tab, setTab] = useState("overview");
-
-  const isDM = !!user && !!campaign && user.id === campaign.dm_id;
+  const isDM = useIsDM();
   const lastSession = sessions.data.length
     ? sessions.data[sessions.data.length - 1].session_number
     : 0;
@@ -121,7 +122,12 @@ export default function CampaignPage() {
         </div>
 
         <div className="mt-4">
-          {tab === "overview" && <OverviewTab description={campaign.description} />}
+          {tab === "overview" && (
+            <div className="flex flex-col gap-5">
+              <OverviewTab description={campaign.description} />
+              {isDM && <PartySection campaignId={campaign.id} />}
+            </div>
+          )}
           {tab === "sessions" && (
             <SessionsTab
               loading={sessions.loading}
