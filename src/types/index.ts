@@ -68,6 +68,18 @@ export interface Character {
   created_at: string;
 }
 
+export type QuestStatus = "active" | "completed" | "failed";
+
+export interface Quest {
+  id: string;
+  campaign_id: string;
+  title: string;
+  description: string | null;
+  giver: string | null;
+  status: QuestStatus;
+  created_at: string;
+}
+
 // A character_spells row with the full spell embedded (PostgREST join).
 export interface CharacterSpellRow {
   id: string;

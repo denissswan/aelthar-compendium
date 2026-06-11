@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Castle, ScrollText, Users } from "lucide-react";
+import { Castle, ScrollText, Users, ClipboardList } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
 import EmptyState from "@/components/ui/EmptyState";
@@ -13,17 +13,27 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import SignOutButton from "@/components/SignOutButton";
 import SessionCard from "@/components/SessionCard";
 import NpcCard from "@/components/NpcCard";
+import QuestCard from "@/components/QuestCard";
+import PartyCard from "@/components/dm/PartyCard";
+import PlayerCharacterModal from "@/components/player/PlayerCharacterModal";
 import { usePlayerCampaign } from "@/hooks/usePlayerCampaign";
+import { useQuests } from "@/hooks/useQuests";
+import { useParty } from "@/hooks/useParty";
 
 const TABS = [
   { key: "overview", label: "Огляд" },
+  { key: "party", label: "Загін" },
   { key: "sessions", label: "Сесії" },
   { key: "npcs", label: "NPC" },
+  { key: "quests", label: "Квести" },
 ];
 
 export default function PlayerCampaignView() {
   const { campaign, sessions, npcs, loading } = usePlayerCampaign();
+  const quests = useQuests(campaign?.id);
+  const party = useParty(campaign?.id);
   const [tab, setTab] = useState("overview");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   if (loading) {
     return (
@@ -54,6 +64,9 @@ export default function PlayerCampaignView() {
   const lastSession = sessions.length
     ? sessions[sessions.length - 1].session_number
     : 0;
+  const selected = selectedId
+    ? (party.data.find((c) => c.id === selectedId) ?? null)
+    : null;
 
   return (
     <>
@@ -95,6 +108,28 @@ export default function PlayerCampaignView() {
             </div>
           )}
 
+          {tab === "party" && (
+            <div className="flex flex-col gap-2.5">
+              {party.loading ? (
+                <LoadingSpinner />
+              ) : party.data.length === 0 ? (
+                <EmptyState
+                  icon={Users}
+                  title="Загін порожній"
+                  description="Персонажі ваших побратимів зʼявляться тут."
+                />
+              ) : (
+                party.data.map((c) => (
+                  <PartyCard
+                    key={c.id}
+                    character={c}
+                    onClick={() => setSelectedId(c.id)}
+                  />
+                ))
+              )}
+            </div>
+          )}
+
           {tab === "sessions" && (
             <div className="flex flex-col gap-2.5">
               {sessions.length === 0 ? (
@@ -131,8 +166,29 @@ export default function PlayerCampaignView() {
               )}
             </div>
           )}
+
+          {tab === "quests" && (
+            <div className="flex flex-col gap-2.5">
+              {quests.loading ? (
+                <LoadingSpinner />
+              ) : quests.data.length === 0 ? (
+                <EmptyState
+                  icon={ClipboardList}
+                  title="Квестів ще немає"
+                  description="Завдання від майстра зʼявляться тут."
+                />
+              ) : (
+                quests.data.map((q) => <QuestCard key={q.id} quest={q} />)
+              )}
+            </div>
+          )}
         </div>
       </PageBody>
+
+      <PlayerCharacterModal
+        character={selected}
+        onClose={() => setSelectedId(null)}
+      />
     </>
   );
 }

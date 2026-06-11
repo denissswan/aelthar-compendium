@@ -15,12 +15,14 @@ import SignOutButton from "@/components/SignOutButton";
 import PartyOverview from "@/components/dm/PartyOverview";
 import SessionsTab from "@/components/dm/SessionsTab";
 import NpcsTab from "@/components/dm/NpcsTab";
+import QuestsTab from "@/components/dm/QuestsTab";
 import PlayerCampaignView from "@/components/player/PlayerCampaignView";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useIsDM } from "@/hooks/useIsDM";
 import { useCampaign } from "@/hooks/useCampaign";
 import { useSessions } from "@/hooks/useSessions";
 import { useNPCs } from "@/hooks/useNPCs";
+import { useQuests } from "@/hooks/useQuests";
 
 const TABS = [
   { key: "overview", label: "Огляд" },
@@ -34,6 +36,7 @@ export default function CampaignPage() {
   const { campaign, playerCount, loading } = useCampaign(user?.id);
   const sessions = useSessions(campaign?.id);
   const npcs = useNPCs(campaign?.id);
+  const quests = useQuests(campaign?.id);
   const [tab, setTab] = useState("overview");
   const isDM = useIsDM();
   const lastSession = sessions.data.length
@@ -148,7 +151,7 @@ export default function CampaignPage() {
           )}
           {tab === "sessions" && <SessionsTab sessions={sessions} isDM={isDM} />}
           {tab === "npcs" && <NpcsTab npcs={npcs} isDM={isDM} />}
-          {tab === "quests" && <QuestsTab />}
+          {tab === "quests" && <QuestsTab quests={quests} isDM={isDM} />}
         </div>
       </PageBody>
     </>
@@ -177,53 +180,3 @@ function OverviewTab({ description }: { description: string | null }) {
   );
 }
 
-/* --------------------------------- Квести --------------------------------- */
-
-const QUEST_STATUS_COLOR: Record<string, string> = {
-  Активний: "#c8843a",
-  Завершений: "#4fbf8f",
-  Провалений: "#bf4f4f",
-};
-
-// Static placeholder quests (no quests table exists yet).
-const EXAMPLE_QUESTS = [
-  {
-    id: "q1",
-    name: "Зникнення старости Валдаару",
-    status: "Активний",
-    giver: "Рада Старійшин",
-  },
-  {
-    id: "q2",
-    name: "Тіні під монастирем",
-    status: "Активний",
-    giver: "Брат Радомир",
-  },
-  {
-    id: "q3",
-    name: "Загублений караван",
-    status: "Завершений",
-    giver: "Купець Драгомир",
-  },
-];
-
-function QuestsTab() {
-  return (
-    <div className="flex flex-col gap-2.5">
-      {EXAMPLE_QUESTS.map((quest) => (
-        <Card key={quest.id}>
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <p className="text-[15px] font-bold text-fg">{quest.name}</p>
-              <p className="mt-0.5 text-xs text-fg-muted">Від: {quest.giver}</p>
-            </div>
-            <Badge
-              label={quest.status}
-              color={QUEST_STATUS_COLOR[quest.status]}
-            />
-          </div>
-        </Card>
-      ))}
-    </div>
-  );
-}
