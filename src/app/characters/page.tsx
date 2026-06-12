@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Users, Plus } from "lucide-react";
+import { Users, Plus, KeyRound } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
 import EmptyState from "@/components/ui/EmptyState";
@@ -98,6 +98,13 @@ export default function CharactersPage() {
             >
               <Plus size={18} />
               Створити персонажа
+            </Link>
+            <Link
+              href="/join"
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold text-fg-muted active:text-fg"
+            >
+              <KeyRound size={16} />
+              Приєднатися за кодом
             </Link>
           </div>
         )}

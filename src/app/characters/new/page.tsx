@@ -8,7 +8,7 @@ import PageBody from "@/components/PageBody";
 import { supabase } from "@/lib/supabase";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useRaces } from "@/hooks/useRaces";
-import { readStorage } from "@/lib/storage";
+import { readStorage, writeStorage, removeStorage } from "@/lib/storage";
 import { STORAGE_KEYS } from "@/lib/storageKeys";
 import {
   ABILITIES,
@@ -68,6 +68,12 @@ export default function NewCharacterPage() {
 
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [campaignId, setCampaignId] = useState<string>("");
+  // When arriving from /join, the campaign is fixed to the invite code's
+  // campaign (resolved server-side) and the selector is replaced by a banner.
+  const [joinCampaign, setJoinCampaign] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const [name, setName] = useState("");
   const [race, setRace] = useState("");
@@ -114,6 +120,30 @@ export default function NewCharacterPage() {
     };
   }, [user]);
 
+  // If we arrived from /join, re-validate the invite code server-side and lock
+  // the new character to that campaign. Resolving from the code (not a passed
+  // id) means the campaign_id can't be forged client-side.
+  useEffect(() => {
+    const pendingCode = readStorage<string | null>(
+      STORAGE_KEYS.pendingJoinCode,
+      null,
+    );
+    if (!pendingCode) return;
+    let active = true;
+    (async () => {
+      const { data } = await supabase.rpc("redeem_invite_code", {
+        p_code: pendingCode,
+      });
+      if (!active) return;
+      const row = Array.isArray(data) ? data[0] : null;
+      if (row) setJoinCampaign({ id: row.id, name: row.name });
+      else removeStorage(STORAGE_KEYS.pendingJoinCode); // stale / invalid code
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   // Keep the suggested HP in sync until the user overrides it.
   useEffect(() => {
     if (!hpTouched.current) {
@@ -139,11 +169,13 @@ export default function NewCharacterPage() {
     setBusy(true);
     setError(null);
 
+    const effectiveCampaignId = joinCampaign ? joinCampaign.id : campaignId || null;
+
     const { data, error: insertError } = await supabase
       .from("characters")
       .insert({
         user_id: user.id,
-        campaign_id: campaignId || null,
+        campaign_id: effectiveCampaignId,
         name: name.trim(),
         race: race.trim() || "—",
         class: klass,
@@ -177,6 +209,14 @@ export default function NewCharacterPage() {
       return;
     }
 
+    // When joining, drop the player straight into their new campaign.
+    if (joinCampaign) {
+      writeStorage(STORAGE_KEYS.activeCampaignId, joinCampaign.id);
+      removeStorage(STORAGE_KEYS.pendingJoinCode);
+      router.push("/campaign");
+      return;
+    }
+
     router.push(data?.id ? `/characters/${data.id}` : "/characters");
   };
 
@@ -198,21 +238,32 @@ export default function NewCharacterPage() {
             />
           </div>
 
-          {/* Campaign */}
+          {/* Campaign — locked to the joined campaign when arriving from /join */}
           <div>
             <label className={labelClass}>Кампанія</label>
-            <select
-              value={campaignId}
-              onChange={(e) => setCampaignId(e.target.value)}
-              className={inputClass}
-            >
-              <option value="">Без кампанії</option>
-              {campaigns.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+            {joinCampaign ? (
+              <div className="rounded-lg border border-accent bg-accent-dim px-3 py-2.5">
+                <p className="text-[11px] uppercase tracking-[0.06em] text-accent">
+                  Приєднання за кодом
+                </p>
+                <p className="text-[15px] font-semibold text-fg">
+                  {joinCampaign.name}
+                </p>
+              </div>
+            ) : (
+              <select
+                value={campaignId}
+                onChange={(e) => setCampaignId(e.target.value)}
+                className={inputClass}
+              >
+                <option value="">Без кампанії</option>
+                {campaigns.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           {/* Race + Class */}

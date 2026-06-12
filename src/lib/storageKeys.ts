@@ -8,6 +8,8 @@
  */
 export const STORAGE_KEYS = {
   activeCampaignId: "aelthar.activeCampaignId",
+  /** Invite code handed from /join to /characters/new to attach the new character. */
+  pendingJoinCode: "aelthar.pendingJoinCode",
   character: (characterId: string) => `aelthar.character.${characterId}`,
   inventory: (characterId: string) => `aelthar.inventory.${characterId}`,
   spells: (characterId: string) => `aelthar.spells.${characterId}`,
