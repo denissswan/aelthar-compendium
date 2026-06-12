@@ -2,25 +2,23 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import type { Campaign, Session, Npc } from "@/types";
+import type { Campaign, Session } from "@/types";
 
 interface PlayerCampaignState {
   campaign: Campaign | null;
   sessions: Session[]; // from sessions_public (no dm_notes)
-  npcs: Npc[]; // from npcs_public (no secret_notes, visible only)
   loading: boolean;
 }
 
 /**
  * Read-only campaign data for a player: their campaign (RLS-scoped via the
- * "players can view" policy) plus published sessions and visible NPCs read
- * through the protected *_public views.
+ * "players can view" policy) plus published sessions read through the
+ * protected sessions_public view. NPCs are fetched by NPCSystem itself.
  */
 export function usePlayerCampaign(): PlayerCampaignState {
   const [state, setState] = useState<PlayerCampaignState>({
     campaign: null,
     sessions: [],
-    npcs: [],
     loading: true,
   });
 
@@ -36,28 +34,20 @@ export function usePlayerCampaign(): PlayerCampaignState {
 
       if (!active) return;
       if (!camp) {
-        setState({ campaign: null, sessions: [], npcs: [], loading: false });
+        setState({ campaign: null, sessions: [], loading: false });
         return;
       }
 
-      const [{ data: ses }, { data: np }] = await Promise.all([
-        supabase
-          .from("sessions_public")
-          .select("*")
-          .eq("campaign_id", camp.id)
-          .order("session_number", { ascending: true }),
-        supabase
-          .from("npcs_public")
-          .select("*")
-          .eq("campaign_id", camp.id)
-          .order("name", { ascending: true }),
-      ]);
+      const { data: ses } = await supabase
+        .from("sessions_public")
+        .select("*")
+        .eq("campaign_id", camp.id)
+        .order("session_number", { ascending: true });
 
       if (!active) return;
       setState({
         campaign: camp as Campaign,
         sessions: (ses as Session[]) ?? [],
-        npcs: (np as Npc[]) ?? [],
         loading: false,
       });
     })();

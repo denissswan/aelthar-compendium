@@ -15,6 +15,7 @@ import SignOutButton from "@/components/SignOutButton";
 import PartyOverview from "@/components/dm/PartyOverview";
 import SessionsTab from "@/components/dm/SessionsTab";
 import NPCSystem from "@/components/campaign/NPCSystem";
+import SessionPrep from "@/components/campaign/SessionPrep";
 import QuestsTab from "@/components/dm/QuestsTab";
 import PlayerCampaignView from "@/components/player/PlayerCampaignView";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -25,6 +26,7 @@ import { useQuests } from "@/hooks/useQuests";
 
 const TABS = [
   { key: "overview", label: "Огляд" },
+  { key: "prep", label: "Підготовка" },
   { key: "sessions", label: "Сесії" },
   { key: "npcs", label: "NPC" },
   { key: "quests", label: "Квести" },
@@ -147,6 +149,7 @@ export default function CampaignPage() {
               {isDM && <PartyOverview campaignId={campaign.id} />}
             </div>
           )}
+          {tab === "prep" && <SessionPrep campaignId={campaign.id} isDM={isDM} />}
           {tab === "sessions" && <SessionsTab sessions={sessions} isDM={isDM} />}
           {tab === "npcs" && <NPCSystem campaignId={campaign.id} isDM={isDM} />}
           {tab === "quests" && <QuestsTab quests={quests} isDM={isDM} />}

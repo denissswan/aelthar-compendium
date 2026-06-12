@@ -12,7 +12,7 @@ import Badge from "@/components/ui/Badge";
 import SectionLabel from "@/components/ui/SectionLabel";
 import SignOutButton from "@/components/SignOutButton";
 import SessionCard from "@/components/SessionCard";
-import NpcCard from "@/components/NpcCard";
+import NPCSystem from "@/components/campaign/NPCSystem";
 import QuestCard from "@/components/QuestCard";
 import PartyCard from "@/components/dm/PartyCard";
 import PlayerCharacterModal from "@/components/player/PlayerCharacterModal";
@@ -29,7 +29,7 @@ const TABS = [
 ];
 
 export default function PlayerCampaignView() {
-  const { campaign, sessions, npcs, loading } = usePlayerCampaign();
+  const { campaign, sessions, loading } = usePlayerCampaign();
   const quests = useQuests(campaign?.id);
   const party = usePlayerParty(campaign?.id);
   const [tab, setTab] = useState("overview");
@@ -147,24 +147,7 @@ export default function PlayerCampaignView() {
           )}
 
           {tab === "npcs" && (
-            <div className="flex flex-col gap-2.5">
-              {npcs.length === 0 ? (
-                <EmptyState
-                  icon={Users}
-                  title="NPC ще немає"
-                  description="Персонажі, яких ви зустріли, зʼявляться тут."
-                />
-              ) : (
-                npcs.map((npc) => (
-                  <NpcCard
-                    key={npc.id}
-                    npc={npc}
-                    isDM={false}
-                    onToggleVisible={() => {}}
-                  />
-                ))
-              )}
-            </div>
+            <NPCSystem campaignId={campaign.id} isDM={false} />
           )}
 
           {tab === "quests" && (
