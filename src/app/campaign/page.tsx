@@ -14,14 +14,13 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import SignOutButton from "@/components/SignOutButton";
 import PartyOverview from "@/components/dm/PartyOverview";
 import SessionsTab from "@/components/dm/SessionsTab";
-import NpcsTab from "@/components/dm/NpcsTab";
+import NPCSystem from "@/components/campaign/NPCSystem";
 import QuestsTab from "@/components/dm/QuestsTab";
 import PlayerCampaignView from "@/components/player/PlayerCampaignView";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useIsDM } from "@/hooks/useIsDM";
 import { useCampaign } from "@/hooks/useCampaign";
 import { useSessions } from "@/hooks/useSessions";
-import { useNPCs } from "@/hooks/useNPCs";
 import { useQuests } from "@/hooks/useQuests";
 
 const TABS = [
@@ -35,7 +34,6 @@ export default function CampaignPage() {
   const { user, loading: userLoading } = useCurrentUser();
   const { campaign, playerCount, loading } = useCampaign(user?.id);
   const sessions = useSessions(campaign?.id);
-  const npcs = useNPCs(campaign?.id);
   const quests = useQuests(campaign?.id);
   const [tab, setTab] = useState("overview");
   const isDM = useIsDM();
@@ -150,7 +148,7 @@ export default function CampaignPage() {
             </div>
           )}
           {tab === "sessions" && <SessionsTab sessions={sessions} isDM={isDM} />}
-          {tab === "npcs" && <NpcsTab npcs={npcs} isDM={isDM} />}
+          {tab === "npcs" && <NPCSystem campaignId={campaign.id} isDM={isDM} />}
           {tab === "quests" && <QuestsTab quests={quests} isDM={isDM} />}
         </div>
       </PageBody>

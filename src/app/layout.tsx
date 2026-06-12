@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   title: "Aelthar Compendium",
   description: "D&D 5e campaign manager for the world of Aelthar",
   manifest: "/manifest.json",
-  themeColor: "#c8843a",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
