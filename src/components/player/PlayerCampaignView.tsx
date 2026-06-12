@@ -71,7 +71,7 @@ export default function PlayerCampaignView() {
   return (
     <>
       <AppHeader title="Кампанія" rightAction={<SignOutButton />} />
-      <PageBody className="px-4 pt-4">
+      <PageBody className="px-4 pt-4 md:px-8 md:py-6">
         {/* Hero */}
         <div
           className="rounded-xl border border-[#c8843a33] p-5"

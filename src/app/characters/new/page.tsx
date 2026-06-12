@@ -183,7 +183,7 @@ export default function NewCharacterPage() {
   return (
     <>
       <AppHeader title="Новий персонаж" backButton />
-      <PageBody className="px-4 pb-8 pt-4">
+      <PageBody className="px-4 pb-8 pt-4 md:mx-auto md:max-w-2xl md:px-8 md:py-6">
         <form onSubmit={submit} className="flex flex-col gap-4">
           {/* Name */}
           <div>

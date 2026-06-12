@@ -72,7 +72,7 @@ export default function NewCampaignPage() {
   return (
     <>
       <AppHeader title="Нова кампанія" backButton />
-      <PageBody className="px-4 pt-4">
+      <PageBody className="px-4 pt-4 md:mx-auto md:max-w-2xl md:px-8 md:py-6">
         <form onSubmit={submit} className="flex flex-col gap-4">
           <div>
             <label className="mb-1 block text-[13px] font-semibold text-fg-muted">

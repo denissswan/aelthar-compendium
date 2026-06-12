@@ -51,7 +51,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-serif">
-        <div className="relative mx-auto min-h-screen max-w-app bg-bg">
+        <div className="relative mx-auto min-h-screen max-w-app bg-bg md:max-w-none">
           <AuthProvider>
             <AppShell>{children}</AppShell>
           </AuthProvider>

@@ -32,7 +32,7 @@ export default function CompendiumPage() {
   return (
     <>
       <AppHeader title="Довідник" rightAction={<SignOutButton />} />
-      <PageBody className="flex flex-col gap-3 px-4 pt-4">
+      <PageBody className="flex flex-col gap-3 px-4 pt-4 md:grid md:grid-cols-2 md:gap-3 md:px-8 md:py-6">
         {categories.map(({ href, label, description, icon: Icon }) => (
           <Link
             key={href}

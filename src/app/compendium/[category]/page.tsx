@@ -50,7 +50,7 @@ function SpellsView() {
   return (
     <>
       <AppHeader title={CATEGORY_TITLES.spells} backButton />
-      <PageBody className="flex flex-col gap-4 px-4 pt-4">
+      <PageBody className="flex flex-col gap-4 px-4 pt-4 md:px-8 md:py-6">
         {/* Search */}
         <SearchBar
           value={search}

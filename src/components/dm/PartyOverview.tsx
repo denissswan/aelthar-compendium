@@ -30,7 +30,7 @@ export default function PartyOverview({ campaignId }: { campaignId: string }) {
           description="Гравці ще не створили персонажів у цій кампанії."
         />
       ) : (
-        <div className="flex flex-col gap-2.5">
+        <div className="flex flex-col gap-2.5 md:grid md:grid-cols-2 xl:grid-cols-3">
           {data.map((c) => (
             <PartyCard
               key={c.id}

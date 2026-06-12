@@ -95,7 +95,7 @@ export default function CharacterDetailPage() {
           </span>
         }
       />
-      <PageBody className="flex flex-col gap-4 px-4 pt-4">
+      <PageBody className="flex flex-col gap-4 px-4 pt-4 md:px-8 md:py-6">
         <SheetHeader character={character} />
 
         <TabBar tabs={TABS} active={tab} onChange={setTab} />
@@ -107,22 +107,25 @@ export default function CharacterDetailPage() {
               <AbilityGrid character={character} onChange={update} />
             </section>
 
-            <section>
-              <SectionLabel className="mb-2">Рятівні кидки</SectionLabel>
-              <SavingThrows character={character} onToggle={toggleSave} />
-            </section>
+            {/* On desktop the remaining stat blocks sit in two columns. */}
+            <div className="flex flex-col gap-5 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-5">
+              <section>
+                <SectionLabel className="mb-2">Рятівні кидки</SectionLabel>
+                <SavingThrows character={character} onToggle={toggleSave} />
+              </section>
 
-            <section>
-              <SectionLabel className="mb-2">Навички</SectionLabel>
-              <SkillsList character={character} onToggle={toggleSkill} />
-            </section>
+              <section>
+                <SectionLabel className="mb-2">Навички</SectionLabel>
+                <SkillsList character={character} onToggle={toggleSkill} />
+              </section>
 
-            <section>
-              <SectionLabel className="mb-2">Бойові показники</SectionLabel>
-              <CombatStats character={character} onChange={update} />
-            </section>
+              <section>
+                <SectionLabel className="mb-2">Бойові показники</SectionLabel>
+                <CombatStats character={character} onChange={update} />
+              </section>
 
-            <DeathSaves characterId={character.id} />
+              <DeathSaves characterId={character.id} />
+            </div>
           </div>
         )}
 

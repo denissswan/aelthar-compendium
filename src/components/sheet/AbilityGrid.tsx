@@ -12,7 +12,7 @@ export default function AbilityGrid({
   onChange: (patch: Partial<Character>) => void;
 }) {
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 gap-2 md:grid-cols-6">
       {ABILITIES.map((a) => {
         const score = character[a.key];
         const mod = abilityModifier(score);
