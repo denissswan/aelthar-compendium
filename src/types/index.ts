@@ -132,6 +132,7 @@ export interface Session {
   date: string; // ISO date
   summary: string | null;
   dm_notes: string | null; // DM-only
+  is_published: boolean; // players see only published sessions (via sessions_public)
   created_at: string;
 }
 

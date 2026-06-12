@@ -6,7 +6,7 @@ import type { Session } from "@/types";
 
 export type SessionInput = Pick<
   Session,
-  "session_number" | "title" | "date" | "summary" | "dm_notes"
+  "session_number" | "title" | "date" | "summary" | "dm_notes" | "is_published"
 >;
 
 function sortSessions(list: Session[]): Session[] {

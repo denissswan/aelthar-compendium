@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Castle, ScrollText, Users, ClipboardList } from "lucide-react";
+import { Castle, Users, ClipboardList } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
 import EmptyState from "@/components/ui/EmptyState";
@@ -11,7 +11,7 @@ import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import SectionLabel from "@/components/ui/SectionLabel";
 import SignOutButton from "@/components/SignOutButton";
-import SessionCard from "@/components/SessionCard";
+import SessionLog from "@/components/campaign/SessionLog";
 import NPCSystem from "@/components/campaign/NPCSystem";
 import QuestCard from "@/components/QuestCard";
 import PartyCard from "@/components/dm/PartyCard";
@@ -131,19 +131,7 @@ export default function PlayerCampaignView() {
           )}
 
           {tab === "sessions" && (
-            <div className="flex flex-col gap-2.5">
-              {sessions.length === 0 ? (
-                <EmptyState
-                  icon={ScrollText}
-                  title="Сесій ще немає"
-                  description="Звіти про проведені сесії зʼявляться тут."
-                />
-              ) : (
-                sessions.map((s) => (
-                  <SessionCard key={s.id} session={s} isDM={false} />
-                ))
-              )}
-            </div>
+            <SessionLog campaignId={campaign.id} isDM={false} />
           )}
 
           {tab === "npcs" && (

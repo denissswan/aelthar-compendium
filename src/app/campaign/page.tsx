@@ -13,7 +13,7 @@ import Badge from "@/components/ui/Badge";
 import SectionLabel from "@/components/ui/SectionLabel";
 import SignOutButton from "@/components/SignOutButton";
 import PartyOverview from "@/components/dm/PartyOverview";
-import SessionsTab from "@/components/dm/SessionsTab";
+import SessionLog from "@/components/campaign/SessionLog";
 import NPCSystem from "@/components/campaign/NPCSystem";
 import SessionPrep from "@/components/campaign/SessionPrep";
 import QuestsTab from "@/components/dm/QuestsTab";
@@ -150,7 +150,9 @@ export default function CampaignPage() {
             </div>
           )}
           {tab === "prep" && <SessionPrep campaignId={campaign.id} isDM={isDM} />}
-          {tab === "sessions" && <SessionsTab sessions={sessions} isDM={isDM} />}
+          {tab === "sessions" && (
+            <SessionLog campaignId={campaign.id} isDM={isDM} sessions={sessions} />
+          )}
           {tab === "npcs" && <NPCSystem campaignId={campaign.id} isDM={isDM} />}
           {tab === "quests" && <QuestsTab quests={quests} isDM={isDM} />}
         </div>
