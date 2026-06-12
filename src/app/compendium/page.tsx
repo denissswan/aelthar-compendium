@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles, Users, ChevronRight, type LucideIcon } from "lucide-react";
+import { Sparkles, Users, Skull, Swords, ChevronRight, type LucideIcon } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import PageBody from "@/components/PageBody";
 import SignOutButton from "@/components/SignOutButton";
@@ -25,6 +25,18 @@ const categories: Category[] = [
     label: "Раси",
     description: "Народи світу Аелтар та їхні стосунки з Церквою",
     icon: Users,
+  },
+  {
+    href: "/compendium/classes",
+    label: "Класи",
+    description: "Класи персонажів, кубики здоровʼя та володіння",
+    icon: Swords,
+  },
+  {
+    href: "/compendium/monsters",
+    label: "Бестіарій",
+    description: "Монстри й істоти зі стат-блоками та діями",
+    icon: Skull,
   },
 ];
 

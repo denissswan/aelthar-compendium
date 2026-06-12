@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { fetchAllRows } from "@/lib/fetchAllRows";
 import type { Spell } from "@/types";
 
 interface SpellsState {
@@ -10,7 +10,11 @@ interface SpellsState {
   error: string | null;
 }
 
-/** Fetch all spells from Supabase, ordered by level then name. */
+/**
+ * Fetch all spells from Supabase, ordered by level then name. Paginated so the
+ * full set comes through even past PostgREST's 1000-row cap (otherwise the
+ * highest spell levels get dropped).
+ */
 export function useSpells(): SpellsState {
   const [state, setState] = useState<SpellsState>({
     data: [],
@@ -21,18 +25,13 @@ export function useSpells(): SpellsState {
   useEffect(() => {
     let active = true;
     (async () => {
-      const { data, error } = await supabase
-        .from("spells")
-        .select("*")
-        .order("level", { ascending: true })
-        .order("name", { ascending: true });
-
+      const { data, error } = await fetchAllRows<Spell>("spells", (q) =>
+        q
+          .order("level", { ascending: true })
+          .order("name", { ascending: true }),
+      );
       if (!active) return;
-      setState({
-        data: (data as Spell[]) ?? [],
-        loading: false,
-        error: error?.message ?? null,
-      });
+      setState({ data, loading: false, error });
     })();
     return () => {
       active = false;

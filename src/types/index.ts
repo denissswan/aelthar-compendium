@@ -178,3 +178,56 @@ export interface Race {
   church_relation: ChurchRelation | null;
   description: string | null;
 }
+
+// A named stat block entry (trait / action / legendary action) on a monster.
+export interface MonsterAbility {
+  name: string;
+  desc: string;
+}
+
+// Mirrors the `monsters` table (seeded from Open5e).
+export interface Monster {
+  id: string;
+  name: string;
+  size: string | null;
+  type: string | null;
+  subtype: string | null;
+  alignment: string | null;
+  armor_class: number | null;
+  hit_points: number | null;
+  hit_dice: string | null;
+  speed: string | null;
+  str: number | null;
+  dex: number | null;
+  con: number | null;
+  int: number | null;
+  wis: number | null;
+  cha: number | null;
+  saving_throws: string | null;
+  skills: string | null;
+  damage_resistances: string | null;
+  damage_immunities: string | null;
+  condition_immunities: string | null;
+  senses: string | null;
+  languages: string | null;
+  challenge_rating: string | null;
+  xp: number | null;
+  special_abilities: MonsterAbility[] | null;
+  actions: MonsterAbility[] | null;
+  legendary_actions: MonsterAbility[] | null;
+  source: string | null;
+  created_at: string;
+}
+
+// Mirrors the `classes` table (seeded from Open5e).
+export interface CharacterClass {
+  id: string;
+  name: string;
+  hit_die: string | null;
+  description: string | null;
+  proficiencies: string | null;
+  saving_throws: string | null;
+  spellcasting_ability: string | null;
+  source: string | null;
+  created_at: string;
+}

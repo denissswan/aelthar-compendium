@@ -7,7 +7,12 @@
 import { spawnSync } from "node:child_process";
 import process from "node:process";
 
-const scripts = ["scripts/seed-open5e.mjs", "scripts/seed-monsters.mjs"];
+const scripts = [
+  "scripts/seed-open5e.mjs",
+  "scripts/seed-monsters.mjs",
+  "scripts/seed-races.mjs",
+  "scripts/seed-classes.mjs",
+];
 
 for (const script of scripts) {
   console.log(`\n▶ ${script}`);
